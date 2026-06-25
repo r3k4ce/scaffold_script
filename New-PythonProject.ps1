@@ -439,9 +439,7 @@ Install dependencies:
 ## Common commands
 
 Source code lives in `src/$PackageName/`. Tests live in `tests/`.
-This scaffold enforces an 80 percent coverage floor and is intended for test-first development.
-
-Run everything:
+Run the full local check:
 
     .\scripts\check.ps1
 
@@ -449,37 +447,26 @@ Auto-fix formatting and safe lint issues, then verify:
 
     .\scripts\fix.ps1
 
-Run tests:
+Individual checks:
 
     uv run pytest
-
-For new features and bug fixes, write or update a focused test first, run that test, then run the full check.
+    uv run pyright
+    uv run ruff check .
+    uv run ruff format .
 
 ## Docs
 
-Living project documentation lives in docs/.
-Start with docs/README.md for the docs convention and docs/project-log.md for the current project memory.
-
-Run type checking:
-
-    uv run pyright
-
-Run linting:
-
-    uv run ruff check .
-
-Run formatting:
-
-    uv run ruff format .
+Project notes live in `docs/`. Start with `docs/project-log.md` for recent decisions,
+verification, and follow-ups.
 
 ## Cross-platform usage
 
-On Windows:
+Windows:
 
     .\scripts\check.ps1
     .\scripts\fix.ps1
 
-On macOS/Linux with PowerShell installed:
+macOS/Linux with PowerShell:
 
     pwsh ./scripts/check.ps1
     pwsh ./scripts/fix.ps1
@@ -490,21 +477,20 @@ $Today = Get-Date -Format "yyyy-MM-dd"
 Write-TextFile -Path (Join-Path "docs" "README.md") -Content @'
 # Project Docs
 
-This folder holds living documentation for the project. Keep it aligned with the codebase as the project changes.
-
-Use these docs to capture current behavior, decisions, workflows, dependencies, verification status, and follow-ups that future maintainers or agents should know.
+Keep this folder aligned with real project changes.
 
 ## Files
 
-- `project-log.md`: Reverse chronological project memory and changelog.
+- `project-log.md`: Newest-first project memory: changes, decisions, verification, and follow-ups.
 
-When a task changes code, behavior, dependencies, workflow, project structure, or an important decision, update the relevant docs before finishing. If no docs update is needed, say why in the final handoff.
+Update docs when code, behavior, dependencies, workflow, structure, or important decisions change.
+If a task needs no docs update, say why in the handoff.
 '@
 
 Write-TextFile -Path (Join-Path "docs" "project-log.md") -Content @"
 # Project Log
 
-Newest entries first. Keep entries compact and factual.
+Newest entries first. Keep entries compact.
 
 ## $Today - Initial scaffold
 
@@ -526,32 +512,24 @@ Newest entries first. Keep entries compact and factual.
 $AgentInstructions = @'
 # Agent Instructions
 
-This Python project is managed with `uv`. Keep work small, test-first, and evidence-based.
+Use `uv`. Keep changes small, test-first, and evidence-based.
 
 Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
 
-## Rules
+## Workflow
 
 - Inspect relevant files before editing. Preserve unrelated user changes and stop if they conflict with the task.
-- For behavior changes and bug fixes, write or update a focused test first and watch it fail for the expected reason. Docs, comments, and simple config-only edits may skip the red step.
-- Make the smallest practical change. Do not turn starter code into unnecessary architecture.
-- Use Context7 and web search as described below when current or external facts matter.
+- For behavior changes and bug fixes, write or update a focused test first and run it before editing. Docs, comments, and simple config-only edits may skip the red step.
+- Make the smallest practical change. Avoid broad refactors, extra dependencies, and new architecture unless the task calls for them.
+- Inspect local files first. Use Context7 or web search only when current external facts matter, such as SDKs, CI actions, auth, deployment, or security-sensitive behavior.
 - Verify with the focused test first, then run `.\scripts\check.ps1` when feasible. If a check cannot run, report why.
 - Use `uv add` or `uv add --dev` for dependencies. Keep secrets out of the repo.
-- Report changed behavior, files touched, verification commands/results, skipped checks, remaining risks, and a suggested commit message in brief Conventional Commit format.
+- For meaningful ambiguity, ask a targeted question before editing.
 
-## Ambiguity and Scope
+## Docs
 
-- Resolve ambiguity before editing: inspect local files first, then use Context7 and/or web search when external facts can narrow the answer. Use Context7 first when available for SDKs, dependencies, CI actions, auth, deployment, and security-sensitive behavior.
-- If meaningful ambiguity remains, ask targeted beginner-friendly questions with concrete options and tradeoffs. Wait to implement until the user answers or explicitly accepts a default.
-- Before edits, restate the bounded scope. For tiny fixes, one terse line is enough; for larger work, include goal, in-scope, out-of-scope, assumptions, and verification.
-- Keep tasks tight. Do not expand into adjacent features, broad refactors, new dependencies, or workflow changes unless the user explicitly includes them.
-
-## Living Docs
-
-- Keep `docs/README.md` and `docs/project-log.md` current with actual project changes.
-- After changes to code, behavior, dependencies, workflows, structure, or important decisions, update the relevant docs before finishing.
-- If no docs update is needed, say so in the final handoff and briefly explain why.
+- Keep `docs/project-log.md` current when code, behavior, dependencies, workflow, structure, or important decisions change.
+- If no docs update is needed, say why in the final handoff.
 
 ## Commands
 
@@ -560,6 +538,11 @@ Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
     uv run pyright
     uv run ruff check .
     .\scripts\check.ps1
+
+## Handoff
+
+Report changed behavior, files touched, verification commands/results, skipped checks, remaining risks,
+and a suggested Conventional Commit message.
 '@
 
 Write-TextFile -Path "AGENTS.md" -Content ($AgentInstructions.Replace("__PACKAGE_NAME__", $PackageName))
