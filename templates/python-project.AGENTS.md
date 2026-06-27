@@ -67,8 +67,9 @@ Do not ask about small reversible code mechanics. Choose the simplest option and
 4. Implement the smallest correct change.
 5. Run the focused check first.
 6. Run `.\scripts\check.ps1` when feasible.
-7. Update docs memory only when required.
-8. Hand off compactly.
+7. Update affected docs only when behavior, setup, commands, configuration, dependencies, architecture, or workflow changed.
+8. Update docs memory only when required.
+9. Hand off compactly.
 
 Docs, comments, and simple config-only edits may skip the red test step.
 
@@ -99,11 +100,15 @@ Use `uv add` or `uv add --dev` for dependencies.
 * Do not run `git add`, `git commit`, or equivalent commands.
 * Read-only Git inspection is allowed: `git status`, `git diff`, `git log`.
 
-## Docs Memory
+## Docs
 
-Update `docs/project-memory.yaml` only when completed work changes code, behavior, dependencies, workflow, structure, or important decisions.
+* Update `README.md` only when setup, commands, usage, config, dependencies, or user-facing behavior changes.
+* Update `.env.example` when new env vars are required. Never create `.env`.
+* Update `docs/project-memory.yaml` for completed code, behavior, dependency, workflow, structure, or decision changes.
+* Optional docs: `docs/architecture.md`, `docs/decisions.md`, `docs/troubleshooting.md`, only when they reduce future confusion.
+* Do not create docs for obvious code, temporary plans, proposed work, commit messages, or routine details.
 
-Keep entries compact and machine-readable:
+Keep `docs/project-memory.yaml` entries compact and machine-readable:
 
 ```yaml
 time_utc:
@@ -113,7 +118,7 @@ changed:
 verification:
 ```
 
-Do not record proposed work, suggested commit messages, or follow-ups. If no memory update is needed, say why in the handoff.
+If no docs update is needed, say why in the handoff.
 
 ## Handoff
 
