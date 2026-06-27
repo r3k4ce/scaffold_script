@@ -524,7 +524,7 @@ Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
 - Inspect local files first. Use Context7 or web search only when current external facts matter, such as SDKs, CI actions, auth, deployment, or security-sensitive behavior.
 - Verify with the focused test first, then run `.\scripts\check.ps1` when feasible. If a check cannot run, report why.
 - Use `uv add` or `uv add --dev` for dependencies. Keep secrets out of the repo.
-- For meaningful ambiguity, ask a targeted question before editing.
+- Ask before editing when a decision affects behavior, UX, architecture, dependencies, workflow, data, or user expectations. For small local code mechanics, choose the simplest reversible option and mention the assumption in the handoff.
 
 ## Git Boundaries
 
@@ -534,14 +534,16 @@ Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
 
 ## Communication
 
-- When asking questions, make the decision as easy as possible for a beginner developer.
-- Explain code concepts in plain English when they affect a user decision. For example, describe what a function, variable, or class does in everyday terms before naming it.
-- In final handoffs, keep summaries, skipped checks, and remaining risks clear and beginner-friendly while still being technically accurate.
+- Keep the user on the same page. Before asking for a decision, briefly explain why the choice matters and what would change.
+- Ask focused questions, not broad open-ended ones. Offer concrete options when that makes the tradeoff clearer.
+- Teach as you go when it affects a decision or handoff. Define important code, tooling, or workflow terms in plain English before relying on them.
+- Keep explanations practical and concise. Do not turn routine updates into long tutorials unless the user asks for more depth.
+- In final handoffs, be clear, beginner-friendly, and technically accurate.
 
 ## Docs
 
 - Keep `docs/project-log.md` current when code, behavior, dependencies, workflow, structure, or important decisions change.
-- If no docs update is needed, say why in the final handoff.
+- If no docs update is needed, say why in the final handoff. Keep entries compact and useful to the next developer.
 
 ## Commands
 
@@ -554,7 +556,7 @@ Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
 ## Handoff
 
 Report changed behavior, files touched, verification commands/results, skipped checks, remaining risks,
-and a suggested Conventional Commit message. Do not stage or commit the changes.
+assumptions made, and a suggested Conventional Commit message. Do not stage or commit the changes.
 '@
 
 Write-TextFile -Path "AGENTS.md" -Content ($AgentInstructions.Replace("__PACKAGE_NAME__", $PackageName))
