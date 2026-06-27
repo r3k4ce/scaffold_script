@@ -510,21 +510,32 @@ Newest entries first. Keep entries compact.
 "@
 
 $AgentInstructions = @'
-# Agent Instructions
+# AGENTS.md
 
-Use `uv`. Keep changes small, test-first, and evidence-based.
+## Project Context
 
 Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
+
+## Core Rules
+
+- Use `uv`.
+- Keep changes small, test-first, and evidence-based.
+- Make the smallest practical change. Avoid broad refactors, extra dependencies, and new architecture unless the task calls for them.
 
 ## Workflow
 
 - Inspect relevant files before editing. Preserve unrelated user changes and stop if they conflict with the task.
 - For behavior changes and bug fixes, write or update a focused test first and run it before editing. Docs, comments, and simple config-only edits may skip the red step.
-- Make the smallest practical change. Avoid broad refactors, extra dependencies, and new architecture unless the task calls for them.
 - Inspect local files first. Use Context7 or web search only when current external facts matter, such as SDKs, CI actions, auth, deployment, or security-sensitive behavior.
-- Verify with the focused test first, then run `.\scripts\check.ps1` when feasible. If a check cannot run, report why.
-- Use `uv add` or `uv add --dev` for dependencies. Keep secrets out of the repo.
 - Ask before editing when a decision affects behavior, UX, architecture, dependencies, workflow, data, or user expectations. For small local code mechanics, choose the simplest reversible option and mention the assumption in the handoff.
+
+## Testing and Verification
+
+- Verify with the focused test first, then run `.\scripts\check.ps1` when feasible. If a check cannot run, report why.
+
+## Dependencies and Security
+
+- Use `uv add` or `uv add --dev` for dependencies. Keep secrets out of the repo.
 
 ## Git Boundaries
 
@@ -547,11 +558,13 @@ Source code lives in `src/__PACKAGE_NAME__/`. Tests live in `tests/`.
 
 ## Commands
 
-    uv sync --dev
-    uv run pytest
-    uv run pyright
-    uv run ruff check .
-    .\scripts\check.ps1
+```powershell
+uv sync --dev
+uv run pytest
+uv run pyright
+uv run ruff check .
+.\scripts\check.ps1
+```
 
 ## Handoff
 
