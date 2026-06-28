@@ -1,7 +1,17 @@
-# Scripts
+# new-project
 
-This repository stores miscellaneous scripts and small workflow helpers.
+`new-project.ps1` scaffolds local project starters in the current directory.
 
-The contents may be experimental or specific to my local development workflow.
+```powershell
+.\new-project.ps1 -Profile base
+.\new-project.ps1 -Profile desktop
+.\new-project.ps1 -Profile web
+.\new-project.ps1 -Profile game
+```
 
-`New-PythonProject.ps1` scaffolds uv-managed Python projects.
+Profiles:
+
+* `base`: uv-managed Python package.
+* `desktop`: base profile plus PySide6 starter folders and a runnable window.
+* `web`: FastAPI backend plus Vite React TypeScript frontend.
+* `game`: FastAPI backend plus Vite TypeScript frontend with Phaser.
