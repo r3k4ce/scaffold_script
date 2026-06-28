@@ -30,7 +30,7 @@ If a skill/tool is unavailable, continue with the closest local workflow. Do not
 
 ## Core Rules
 
-* Keep changes small, test-first, and evidence-based.
+* Use TDD for implementation: write the focused test for the requested behavior first, then write the minimal code needed to pass it.
 * Preserve existing behavior unless the task explicitly changes it.
 * Do not add broad refactors, new architecture, speculative abstractions, alternate implementations, or future configurability.
 * Prefer stdlib and existing project helpers before adding dependencies.
@@ -66,13 +66,14 @@ Do not ask about small reversible code mechanics. Choose the simplest option and
 
 1. Inspect relevant files.
 2. Clarify scope gaps before implementation.
-3. For behavior changes and bug fixes, write or update one focused failing test first unless the change is docs/config-only or no test harness exists.
-4. Implement the smallest correct change.
-5. Run the focused check first.
-6. Run `.\scripts\check.ps1` when feasible.
-7. Update affected docs only when behavior, setup, commands, configuration, dependencies, architecture, or workflow changed.
-8. Update docs memory only when required.
-9. Hand off compactly.
+3. For features, behavior changes, bug fixes, and non-trivial refactors, write or update one focused test first as if the feature already exists.
+4. Run the focused test and confirm it fails for the expected reason when feasible.
+5. Implement the smallest correct change needed to make the test pass.
+6. Run the focused check first.
+7. Run `.\scripts\check.ps1` when feasible.
+8. Update affected docs only when behavior, setup, commands, configuration, dependencies, architecture, or workflow changed.
+9. Update docs memory only when required.
+10. Hand off compactly.
 
 Docs, comments, and simple config-only edits may skip the red test step.
 
