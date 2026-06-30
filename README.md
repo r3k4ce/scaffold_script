@@ -32,15 +32,36 @@ RepoSeed fixes all four by making the boring part a single command.
 
 Early but usable. I use this for my own project starts.
 
+## Profiles
 
+- **`base`** — uv-managed Python package with a `src/` layout, tests, checks, and CI.
+- **`desktop`** — `base` profile plus a PySide6 starter window under `src/<package>/ui/`.
+- **`web`** — FastAPI backend with a Vite + React + TypeScript frontend.
+- **`game`** — FastAPI backend with a Vite + TypeScript + Phaser frontend and a Playwright smoke test.
 
-## Prerequisites
+See [Usage](#usage) for the full option list.
+
+## What it creates
+
+- **`uv`** for Python packaging and dependency management
+- **Ruff** for linting and formatting
+- **Pyright** for static type checking (mode configurable via `-TypeMode`)
+- **pytest** with coverage (branch coverage, 80% fail-under)
+- **PowerShell** `scripts/check.ps1` and `scripts/fix.ps1` to run everything
+- **GitHub Actions** workflow at `.github/workflows/ci.yml`
+- **Pre-commit and pre-push hooks** via `pre-commit`
+- **`AGENTS.md`** with project-specific agent instructions
+- **Project memory** at `docs/project-memory.yaml`
+
+## Requirements
 
 RepoSeed targets Windows with PowerShell 7+ and uses these tools:
 
+- **PowerShell 7+** — required to run `new-project.ps1` and the generated `scripts/*.ps1`.
 - **`uv`** — required for every profile. Install from https://docs.astral.sh/uv/.
 - **`npm`** (Node.js 18+) — required only for the `web` and `game` profiles. Install from https://nodejs.org/.
-- **`git`** — used to initialize a repository and install hooks. The script warns and skips git init if it is missing; you can also pass `-NoGit` to skip it explicitly.
+- **`git`** — used to initialize a repository and install hooks. The script warns and skips `git init` if it is missing; pass `-NoGit` to skip explicitly.
+- **Python** — any version `uv` can install; default is `3.12` (override with `-Python`).
 
 ## Quick start
 
@@ -58,7 +79,7 @@ Set-Location "C:\Code\my-app"
 .\scripts\check.ps1
 ```
 
-Defaults to the `base` profile. See [Usage](#usage) for `-Profile web`, `-Profile game`, `-Profile desktop`, and other options.
+Defaults to the `base` profile. See [Profiles](#profiles) for the available profiles and [Usage](#usage) for options.
 
 ## Usage
 
@@ -75,17 +96,10 @@ Options:
 * `-Name`: project name. Defaults to the current directory name.
 * `-Python`: Python version for `uv init`. Defaults to `3.12`.
 * `-TypeMode`: Pyright type checking mode. Valid values are `off`, `basic`, `standard`, and `strict`. Defaults to `standard`.
-* `-Profile`: scaffold profile. Valid values are `base`, `desktop`, `web`, and `game`. Defaults to `base`.
+* `-Profile`: scaffold profile. See [Profiles](#profiles) for the available values. Defaults to `base`.
 * `-NoGit`: skip git initialization.
 * `-NoInstallHooks`: skip pre-commit and pre-push hook installation.
 * `-NoGitHubActions`: skip GitHub Actions workflow generation.
-
-Profiles:
-
-* `base`: uv-managed Python package.
-* `desktop`: base profile plus PySide6 starter folders and a runnable window.
-* `web`: FastAPI backend plus Vite React TypeScript frontend.
-* `game`: FastAPI backend plus Vite TypeScript frontend with Phaser.
 
 ## Optional: PowerShell alias (`np`)
 
@@ -205,3 +219,18 @@ Entrypoints: FastAPI app in `backend/src/<package>_backend/main.py`; React app i
 ```
 
 Entrypoints: FastAPI app in `backend/src/<package>_backend/main.py`; Phaser scene code in `frontend/src/game/`.
+
+## Non-goals
+
+RepoSeed seeds a clean baseline. It does not try to be a full app generator.
+
+RepoSeed does not generate:
+
+- authentication or user management
+- databases or data-access layers
+- Dockerfiles or container configuration
+- cloud infrastructure or deployment configs
+- dashboards, admin UIs, or analytics
+- production-grade architecture (load balancers, queues, observability, etc.)
+
+What you build on top of the scaffold is yours.
